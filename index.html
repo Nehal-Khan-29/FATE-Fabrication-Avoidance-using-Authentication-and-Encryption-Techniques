@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css.css">
+    <link rel="icon" href="assets\\logo.png" type="image/x-icon">
+
+    <title>Triple Threat Safe</title>
+</head>  
+
+<body>
+
+    <div class="title_main">Triple Threat Safe</div>
+
+    <div class="main">
+
+        <!-- ---------------------------------------------------- Send ---------------------------------------------------- -->
+        <div class="sendfile box">
+
+            <div class="title">Send File View</div>
+
+            <div class="choosefile">
+                Choose Audio File: <br><br>
+                <input type="file" id="audioFile" accept="audio/*">
+                <br><br>
+            </div>
+
+            <div class="yourfile">
+                Your Chosen File: <br><br>
+                <audio id="audioPlayer" controls></audio>
+                <br><br>
+            </div>
+
+            <div class="ip_main">
+
+                <div class="ip">
+                    <div>Enter Your IPv4:</div><br>
+                    <input class="ip1" id="ip1" type="text"><br><br>
+                </div>
+
+                <div class="ip">
+                    <div>Enter Reciver IPv4:</div><br>
+                    <input class="ip2" id="ip2" type="text"><br><br>
+
+                </div>
+
+            </div>
+
+            <div class="key_main">
+
+                <div class="key">
+                    <div>Private Key:</div><br>
+                    <input class="private_key" id="private_key" type="text" value="" readonly><br><br>
+                </div>
+
+                <div class="key">
+                    <div>Public Key:</div><br>
+                    <input class="public_key" id="public_key" type="text" value="" readonly>
+                    <button>Send</button>
+                </div>
+                
+            </div>
+
+            
+
+        </div>       
+        <hr>
+
+        <!-- ---------------------------------------------------- Receive ---------------------------------------------------- -->
+        <div class="receivefile box">
+                    
+            <div class="title">Receive File View</div>
+
+            <div class="key_main">
+
+                <div class="key">
+                    <div>Public Key of Your Sender:</div><br>
+                    <input class="public_key" id="public_key" type="text" value="" readonly><br><br>
+                </div>
+                
+            </div>
+
+            <div class="authen">Not Received</div>
+            <br>
+
+            <div class="recvfile">
+                Received Audio File: <br><br>
+                <audio id="audioPlayerrecv" controls src="audio.wav"></audio>
+                <br><br>
+            </div>
+
+            <hr style="width: 100%;height:2px;">
+
+            <div class="names"><br>
+                <button class="names_button">Authors</button><br><br>
+                <p>Nehal</p>
+                <p>Kaushik</p>
+                <p>Jahnavi</p>
+            </div>
+
+        </div> 
+
+    </div>
+
+    <div class="main">
+
+        <!-- ---------------------------------------------------- Hash ---------------------------------------------------- -->
+        <div class="hashfile box">
+                    
+            <div class="title">Conversion View</div>
+
+
+        </div> 
+        <hr>
+
+        <!-- ---------------------------------------------------- Digital ---------------------------------------------------- -->
+        <div class="Digitalfile box">
+
+            <div class="title">Know what your Reciver gets</div>
+
+        </div> 
+
+    </div>
+
+<script src="js.js"></script>       
+</body>
+
+</html>

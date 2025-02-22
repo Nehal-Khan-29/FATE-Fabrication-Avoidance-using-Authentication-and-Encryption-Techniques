@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Sofia&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Outfit", serif;
+    text-decoration: none;
+    outline: none;
+    color: white;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    background-image: linear-gradient(to bottom, rgb(0, 0, 0), rgb(1, 14, 78));
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px;
+
+}
+
+::-webkit-scrollbar {
+    width: 12px; 
+  }
+
+::-webkit-scrollbar-track {
+    background-image:linear-gradient(to top, black,rgb(0, 5, 50), rgb(2, 146, 208));
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(95, 175, 251); 
+    border-radius: 6px; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(111, 247, 199); 
+}
+
+/*================================================ Name ==============================================================*/
+
+.title_main{
+    color: white;
+    font-size: xx-large;
+    justify-self: center;
+    align-items: center;
+    font-weight: bold;
+    text-align: center;
+}
+
+/*================================================ Main ==============================================================*/
+
+.main{
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.box{
+    flex:1;
+    padding: 20px;
+    height: 90vh;
+}
+
+.main hr{
+    border: none;
+    width: 2px;
+    align-self: center;
+    height: 90%;
+    background: linear-gradient(to bottom, transparent, #ffffff, transparent);
+}
+
+.title{
+    color: white;
+    font-weight:bold;
+    font-size: large;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/*================================================ Sender ==============================================================*/
+
+.choosefile input{
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    transition: background-image 1s ease;
+    background-position: right;
+    background-size: 110%;
+    cursor: pointer;
+}
+
+.choosefile input:hover{
+    background-position: left;
+}
+
+.ip_main{
+    display: flex;
+    flex-direction: row;
+    gap: 35px;
+}
+
+.ip input{
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    width: fit-content;
+    color: black;
+    font-weight: bold;
+}
+
+.key input {
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    width: 450px;
+    color: black;
+    font-weight: bold;
+}
+
+.key button{
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    margin-left: 20px;
+}
+
+.key button:hover{
+    border-radius: 10px;
+    padding: 10px;
+    color: black;
+    background-image: linear-gradient(to right, rgb(104, 104, 247), rgb(250, 241, 253));
+}
+
+/*================================================ Receieve ==============================================================*/
+
+.authen{
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: fit-content;
+}
+
+.receivefile a{
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+}
+
+.receivefile a:hover{
+    border-radius: 10px;
+    padding: 10px;
+    color: black;
+    background-image: linear-gradient(to right, rgb(104, 104, 247), rgb(250, 241, 253));
+}
+
+.names{
+    justify-content: center;
+    text-align: center;
+    font-size: larger;
+}
+
+.names p{
+    display: none;
+}
+
+.names button{
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+
+}
+
+.names button:hover{
+    border-radius: 10px;
+    padding: 10px;
+    color: black;
+    background-image: linear-gradient(to right, rgb(104, 104, 247), rgb(250, 241, 253));
+}
+
+
+.blink{
+    animation: blink-animation 1s;
+    font-weight: bold;
+}
+
+@keyframes blink-animation {
+    0% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 0.2;
+    }
+    50% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 0.2;
+    }
+    100% {
+        opacity: 1;
+        color: rgb(205, 153, 254);
+    }
+}
