@@ -24,7 +24,7 @@
         <!-- ---------------------------------------------------- Send ---------------------------------------------------- -->
         <div class="sendfile box">
 
-            <div class="title">Send File View</div>
+            <div class="title">My Send File View</div>
 
             <div class="choosefile">
                 Choose Audio File: <br><br>
@@ -76,7 +76,7 @@
         <!-- ---------------------------------------------------- Receive ---------------------------------------------------- -->
         <div class="receivefile box">
                     
-            <div class="title">Receive File View</div>
+            <div class="title">My Receive File View</div>
 
             <div class="key_main">
 
@@ -116,6 +116,26 @@
                     
             <div class="title">Conversion View</div>
 
+
+            <div class="hash">
+                <div>Hash Function:</div><br>
+                <input class="hash_key" id="hash_key" type="text" value="SHA-256" readonly><br><br>
+            </div>
+                
+            <div class="digest">
+                <div>Digest:</div><br>
+                <input class="digest_value" id="digest_value" type="text" value="" readonly><br><br>
+            </div>
+
+            <div class="ds">
+                <div>Digital Signature:</div><br>
+                <input class="ds_value" id="ds_value" type="text" value="" readonly><br><br>
+            </div>
+
+            <div class="enc">
+                <div>RSA Encryption of File using your Public Key</div><br>
+                <textarea class="enc_value" id="enc_value" type="text" readonly></textarea><br><br>
+            </div>
 
         </div> 
         <hr>

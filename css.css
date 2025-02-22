@@ -207,3 +207,43 @@ body{
         color: rgb(205, 153, 254);
     }
 }
+
+
+/*================================================ Conversion ==============================================================*/
+
+.hash_key {
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    width: fit-content;
+    color: black;
+    font-weight: bold;
+}
+
+.digest_value {
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    width: 450px;
+    color: black;
+    font-weight: bold;
+}
+
+.ds_value {
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    width: 450px;
+    color: black;
+    font-weight: bold;
+}
+
+.enc_value {
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    width: 450px;
+    height: 200px;
+    color: black;
+    font-weight: bold;
+}
