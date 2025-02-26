@@ -8,7 +8,6 @@ fileInput.addEventListener('change', () => {
     if (file) {
         const fileURL = URL.createObjectURL(file);
         audioPlayer.src = fileURL;
-        audioPlayer.play();
     } else {
         alert("No file chosen!");
     }
