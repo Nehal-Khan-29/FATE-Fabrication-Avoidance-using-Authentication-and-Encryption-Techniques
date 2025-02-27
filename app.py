@@ -73,7 +73,7 @@ def p2p_server1(your_ip, port=41329):
                     break
                 file.write(data)
         
-        with open("static\\assets\\keys\\sender_public_key.pem", "r") as f:
+        with open("sender_public_key.pem", "r") as f:
             lines = f.readlines()
             sender_public_key_str = "".join(lines[1:-1]).replace("\n", "")
 
