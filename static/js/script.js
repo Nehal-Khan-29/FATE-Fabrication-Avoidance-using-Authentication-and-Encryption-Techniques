@@ -36,7 +36,7 @@ getLocalIP(function(ip) {
 });
   
 /*<!-- ---------------------------------------------------- Recieve ---------------------------------------------------- -->*/
-
+/*
 const fileInputrecv = document.getElementById('audioFile');
 const audioPlayerrecv = document.getElementById('audioPlayerrecv');
 
@@ -45,7 +45,6 @@ fileInput.addEventListener('change', () => {
     if (file) {
         const fileURL = URL.createObjectURL(file);
         audioPlayer.src = fileURL;
-        audioPlayer.play();
     } else {
         alert("No file chosen!");
     }
@@ -56,4 +55,4 @@ document.querySelector('.names_button').addEventListener('click', function() {
         p.style.display = 'block';
         p.classList.add('blink');
     });
-  });
+  });*/
