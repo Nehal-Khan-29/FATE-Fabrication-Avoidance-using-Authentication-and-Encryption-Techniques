@@ -120,6 +120,9 @@ def p2p_client(receiver_ip, filename, port1=41329, port2=41330):
         client_socket.connect((receiver_ip, port2))
         with open(filename, 'rb') as file:
             data = file.read()
+            
+            
+            
             client_socket.sendall(data)
         client_socket.close()
         print("File sent successfully.")

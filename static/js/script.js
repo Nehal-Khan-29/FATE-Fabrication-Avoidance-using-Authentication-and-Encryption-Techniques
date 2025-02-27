@@ -49,10 +49,11 @@ fileInput.addEventListener('change', () => {
         alert("No file chosen!");
     }
 });
+*/
 
 document.querySelector('.names_button').addEventListener('click', function() {
     document.querySelectorAll('.names p').forEach(p => {
         p.style.display = 'block';
         p.classList.add('blink');
     });
-  });*/
+  });
