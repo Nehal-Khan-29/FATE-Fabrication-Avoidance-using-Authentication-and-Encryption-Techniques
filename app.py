@@ -14,6 +14,7 @@ def get_ipv4_address():
     except Exception as e:
         return str(e)
 
+
 def get_generate_key():
     private_key = rsa.generate_private_key(
         public_exponent=65537,
@@ -49,11 +50,13 @@ def get_generate_key():
 
     return private_key_str, public_key_str
 
-flag_sr = True
-def p2p_server(your_ip, port=41329):
-    global flag_sr
+
+sender_public_key_str = ""
+def p2p_server1(your_ip, port=41329):
+    global sender_public_key_str
     
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_socket.bind((your_ip, port))
     server_socket.listen(5)  # Allows multiple connections
 
@@ -63,14 +66,33 @@ def p2p_server(your_ip, port=41329):
         conn, addr = server_socket.accept()
         print(f"Connected by {addr}")
         
-        if flag_sr:
-            with open("sender_public_key.pem", "wb") as file:
-                while True:
-                    data = conn.recv(4096)
-                    if not data:
-                        break
-                    file.write(data)
-            flag_sr = False
+        with open("sender_public_key.pem", "wb") as file:
+            while True:
+                data = conn.recv(4096)
+                if not data:
+                    break
+                file.write(data)
+        
+        with open("static\\assets\\keys\\sender_public_key.pem", "r") as f:
+            lines = f.readlines()
+            sender_public_key_str = "".join(lines[1:-1]).replace("\n", "")
+
+        print("Key received successfully from", addr)
+        conn.close()
+        
+
+def p2p_server2(your_ip, port=41330):
+    
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server_socket.bind((your_ip, port))
+    server_socket.listen(5)  # Allows multiple connections
+
+    print(f"P2P Server listening on {your_ip}:{port}...")
+
+    while True:
+        conn, addr = server_socket.accept()
+        print(f"Connected by {addr}")
             
         with open("received_audio.wav", "wb") as file:
             while True:
@@ -81,23 +103,21 @@ def p2p_server(your_ip, port=41329):
 
         print("File received successfully from", addr)
         conn.close()
+        
 
-flag_cl = True
-def p2p_client(receiver_ip, filename, port=41329):
-    global flag_cl
+def p2p_client(receiver_ip, filename, port1=41329, port2=41330):
+
     try:
-        if flag_cl:
-            client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            client_socket.connect((receiver_ip, port))
-            with open('static\\assets\\keys\\public_key.pem', 'rb') as file:
-                data = file.read()
-                client_socket.sendall(data)
-            client_socket.close()
-            print("Key sent successfully.")
-            flag_cl = False
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.connect((receiver_ip, port1))
+        with open('static\\assets\\keys\\public_key.pem', 'rb') as file:
+            data = file.read()
+            client_socket.sendall(data)
+        client_socket.close()
+        print("Key sent successfully.")
         
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect((receiver_ip, port))
+        client_socket.connect((receiver_ip, port2))
         with open(filename, 'rb') as file:
             data = file.read()
             client_socket.sendall(data)
@@ -106,6 +126,7 @@ def p2p_client(receiver_ip, filename, port=41329):
 
     except Exception as e:
         print("Error in sending file:", str(e))
+
 
 
 # -------------------------------------------------------  flask -----------------------------------------------------
@@ -117,8 +138,10 @@ def home():
     ipv4_address = get_ipv4_address()
     private_key_str, public_key_str = get_generate_key()
     
-    t1 = threading.Thread(target=p2p_server, args=(ipv4_address,), daemon=True)
+    t1 = threading.Thread(target=p2p_server1, args=(ipv4_address,), daemon=True)
     t1.start()
+    t2 = threading.Thread(target=p2p_server2, args=(ipv4_address,), daemon=True)
+    t2.start()
     
     receiver_ip=None
     
@@ -135,4 +158,4 @@ def home():
 # ------------------------------------------------------- flask call-----------------------------------------------------
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True) 
+    app.run(host='0.0.0.0', port=5000, debug=True)
