@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="static\\css\\style.css">
+    <link rel="icon" href="static\\assets\\images\\logo.png" type="image/x-icon">
+
+    <title>Triple Threat Safe</title>
+</head>  
+
+<body>
+
+    <div class="title_main">Triple Threat Safe - Sender</div>
+
+    <div class="main">
+
+        <div class="sendfile box">
+            <form action="" method="POST">
+
+                <div class="choosefile">
+                    Choose Audio File: <br><br>
+                    <input type="file" id="audioFile" name="audioFile" accept="audio/*">
+                    <br><br>
+                </div>
+
+                <div class="yourfile">
+                    Your Chosen File: <br><br>
+                    <audio id="audioPlayer" controls></audio>
+                    <br><br>
+                </div>
+
+                <div class="ip_main">
+
+                    <div class="ip">
+                        <div>Your IPv4:</div><br>
+                        <input class="ip1" id="ip1" type="text" value="{{ip}}"><br><br>
+                    </div>
+
+                    <div class="ip">
+                        <div>Enter Reciver IPv4:</div><br>
+                        <input class="ip2" id="ip2" name="ip2" type="text"><br><br>
+
+                    </div>
+
+                </div>
+
+                <div class="key_main">
+
+                    <div class="key">
+                        <div>Private Key:</div><br>
+                        <input class="private_key" id="private_key" type="text" value="{{pri}}" readonly><br><br>
+                    </div>
+
+                    <div class="key">
+                        <div>Public Key:</div><br>
+                        <input class="public_key" id="public_key" type="text" value="{{pub}}" readonly>
+                        <button>Send</button>
+                    </div>
+                    
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+<script src="static\\js\\script.js"></script>       
+</body>
+
+</html>

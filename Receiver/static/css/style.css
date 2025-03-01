@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Sofia&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Outfit", serif;
+    text-decoration: none;
+    outline: none;
+    color: white;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    background-image: linear-gradient(to bottom, rgb(0, 0, 0), rgb(1, 14, 78));
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px;
+    align-items: center;
+
+}
+
+::-webkit-scrollbar {
+    width: 12px; 
+  }
+
+::-webkit-scrollbar-track {
+    background-image:linear-gradient(to top, black,rgb(0, 5, 50), rgb(2, 146, 208));
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(95, 175, 251); 
+    border-radius: 6px; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(111, 247, 199); 
+}
+
+/*================================================ Name ==============================================================*/
+
+.title_main{
+    color: white;
+    font-size: xx-large;
+    justify-self: center;
+    align-items: center;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/*================================================ Main ==============================================================*/
+
+.main{
+    display: flex;
+    flex-direction: row;
+}
+
+.box1{
+    flex:1;
+    padding: 20px;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.box2{
+    flex:1;
+    padding: 20px;
+    height: 80vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.main hr{
+    border: none;
+    width: 2px;
+    height: 40%;
+    background: linear-gradient(to bottom, transparent, #ffffff, transparent);
+    margin-top: 50px;
+}
+
+.title{
+    color: white;
+    font-weight:bold;
+    font-size: large;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/*================================================ Receieve ==============================================================*/
+
+.ip_main{
+    display: flex;
+    flex-direction: row;
+    gap: 35px;
+}
+
+.ip input{
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    width: fit-content;
+    color: black;
+    font-weight: bold;
+}
+
+.key input {
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    width: 450px;
+    color: black;
+    font-weight: bold;
+}
+
+.enc_value {
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    width: 450px;
+    height: 150px;
+    color: black;
+    font-weight: bold;
+}
+
+.recvfileinside{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+button{
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+}
+
+button:hover{
+    border-radius: 10px;
+    padding: 10px;
+    color: black;
+    background-image: linear-gradient(to right, rgb(104, 104, 247), rgb(250, 241, 253));
+}
+
+
+
+
+/*================================================ Conversion ==============================================================*/
+
+.hash_key, .rf{
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    width: fit-content;
+    color: black;
+    font-weight: bold;
+}
+
+.digest_value1, .digest_value2 {
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    width: 450px;
+    color: black;
+    font-weight: bold;
+}
+
+.ds_value {
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
+    width: 450px;
+    color: black;
+    font-weight: bold;
+}
+
+.authen{
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: fit-content;
+    justify-self: center;
+}

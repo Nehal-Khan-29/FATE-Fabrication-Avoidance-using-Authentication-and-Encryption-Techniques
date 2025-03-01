@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="static\\css\\style.css">
+    <link rel="icon" href="static\\assets\\images\\logo.png" type="image/x-icon">
+
+    <title>Triple Threat Safe</title>
+</head>  
+
+<body>
+
+    <div class="title_main">Triple Threat Safe - Receiver</div>
+
+    <div class="main">
+
+        <!-- ======================================================= Receive ======================================================= -->
+
+        <div class="box1">
+
+            <div class="ip_main">
+
+                <div class="ip">
+                    <div>Your IPv4:</div><br>
+                    <input class="ip1" id="ip1" type="text" value="{{ip}}"><br><br>
+                </div>
+
+                <div class="ip">
+                    <div>Sender IPv4:</div><br>
+                    <input class="ip2" id="ip2" name="ip2" type="text"><br><br>
+                </div>
+
+            </div>
+
+            <div class="key_main">
+
+                <div class="key">
+                    <div>Private Key:</div><br>
+                    <input class="private_key" id="private_key" type="text" value="{{pri}}" readonly><br><br>
+                </div>
+
+                <div class="key">
+                    <div>Public Key:</div><br>
+                    <input class="public_key" id="public_key" type="text" value="{{pub}}" readonly>
+                </div>
+                
+            </div>
+
+            <div class="enc">
+                <br>
+                <div>RSA Encryption of File using Sender Public Key</div><br>
+                <textarea class="enc_value" id="enc_value" type="text" readonly></textarea><br><br>
+            </div>
+
+            <div class="recvfile">
+                <div>Received Audio File:</div><br>
+                <div class='recvfileinside'>
+                <audio id="audioPlayerrecv" controls src="audio.wav"></audio>
+                <button>Receive</button>
+                </div>
+            </div>
+
+        </div> 
+
+    </div>
+
+    <div class="title">Conversion View</div>
+    <div class="authen">Not Received</div><br>
+
+    <div class="main">
+
+        <!-- ======================================================= Hash ======================================================= -->
+        <div class="box2">
+                    
+            <div class="hash">
+                <div>Received File</div><br>
+                <input class="rf" type="text" value="audio.mp3" readonly><br><br>
+                <div>Hash Function:</div><br>
+                <input class="hash_key" id="hash_key" type="text" value="SHA-256" readonly><br><br>
+            </div>
+                
+            <div class="digest1">
+                <div>Digest:</div><br>
+                <input class="digest_value1" id="digest_value1" type="text" value="" readonly><br><br>
+            </div>
+
+
+        </div> 
+        <hr>
+
+        <!-- ======================================================= Digital ======================================================= -->
+         
+        <div class="box2">
+
+            <div class="key_main">
+
+                <div class="key">
+                    <div>Public Key of Your Sender:</div><br>
+                    <input class="public_key" id="public_key" type="text" value="{{server_pub}}" readonly><br><br>
+                </div>
+                
+            </div>
+
+            <div class="ds">
+                <div>Digital Signature received from Sender:</div><br>
+                <input class="ds_value" id="ds_value" type="text" value="" readonly><br><br>
+            </div>
+
+            <div class="digest2">
+                <div>Digest:</div><br>
+                <input class="digest_value2" id="digest_value2" type="text" value="" readonly><br><br>
+            </div>
+
+        </div> 
+
+    </div>
+
+    
+
+<script src="static\\js\\script.js"></script>       
+</body>
+
+</html>
