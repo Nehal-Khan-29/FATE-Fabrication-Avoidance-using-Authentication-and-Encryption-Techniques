@@ -6,7 +6,7 @@ connected_client_addr = None
 sender_public_key_str = None
 addr_lock = threading.Lock()  # To ensure thread safety
 
-# ------------------------------------------------------- send view -----------------------------------------------------
+# ------------------------------------------------------- receive view -----------------------------------------------------
 def get_ipv4_address():
     try:
         hostname = socket.gethostname()
