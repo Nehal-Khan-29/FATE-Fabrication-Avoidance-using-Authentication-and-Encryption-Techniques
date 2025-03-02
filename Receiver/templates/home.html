@@ -34,35 +34,53 @@
 
                 <div class="ip">
                     <div>Sender IPv4:</div><br>
-                    <input class="ip2" id="ip2" name="ip2" type="text"><br><br>
+                    <input class="ip2" id="ip2" type="text" value="{{addr}}"><br><br>
                 </div>
 
             </div>
 
             <div class="key_main">
 
-                <div class="key">
-                    <div>Private Key:</div><br>
-                    <input class="private_key" id="private_key" type="text" value="{{pri}}" readonly><br><br>
+                <div class="key_main2">
+
+                    <div class="key">
+                        <div>Private Key:</div><br>
+                        <input class="private_key" id="private_key" type="text" value="{{pri}}" readonly><br><br>
+                    </div>
+
+                    <div class="key">
+                        <div>Public Key:</div><br>
+                        <input class="public_key" id="public_key" type="text" value="{{pub}}" readonly>
+                    </div>
+
                 </div>
 
-                <div class="key">
-                    <div>Public Key:</div><br>
-                    <input class="public_key" id="public_key" type="text" value="{{pub}}" readonly>
+                <div class="key_main2">
+
+                    <div class="key">
+                        <div>Encrypted AES received from Sender:</div><br>
+                        <input class="aesenc_key" id="aesenc_key" type="text" value="{{aes_enc}}" readonly><br><br>
+                    </div>
+
+                    <div class="key">
+                        <div>Decrypted AES Key using my Private Key:</div><br>
+                        <input class="aesenc_key" id="aesenc_key" type="text" value="{{aes_dec}}" readonly>
+                    </div>
+
                 </div>
                 
             </div>
 
             <div class="enc">
                 <br>
-                <div>RSA Encryption of File using Sender Public Key</div><br>
-                <textarea class="enc_value" id="enc_value" type="text" readonly></textarea><br><br>
+                <div>AES Encryption of File using Sender generated AES Key</div><br>
+                <textarea class="enc_value" id="enc_value" type="text" readonly>{{astr}}</textarea><br><br>
             </div>
 
             <div class="recvfile">
                 <div>Received Audio File:</div><br>
                 <div class='recvfileinside'>
-                <audio id="audioPlayerrecv" controls src="audio.wav"></audio>
+                <audio id="audioPlayerrecv" controls></audio>
                 </div>
             </div>
 
@@ -102,7 +120,7 @@
 
                 <div class="key">
                     <div>Public Key of Your Sender:</div><br>
-                    <input class="public_key" id="public_key" type="text" value="{{server_pub}}" readonly><br><br>
+                    <input class="public_key" id="public_key" type="text" value="{{spub}}" readonly><br><br>
                 </div>
                 
             </div>

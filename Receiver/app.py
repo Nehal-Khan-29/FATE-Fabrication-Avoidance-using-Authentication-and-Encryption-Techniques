@@ -1,9 +1,10 @@
 import socket
 from flask import Flask, render_template, request
-import threading
+import threading, base64
 
 connected_client_addr = None
 sender_public_key_str = None
+audio_enc_str = None
 addr_lock = threading.Lock()  # To ensure thread safety
 
 # ------------------------------------------------------- receive view -----------------------------------------------------
@@ -27,7 +28,7 @@ def get_generate_key():
     return private_key_str, public_key_str
 
 def p2p_server(your_ip, port=41329):
-    global connected_client_addr, sender_public_key_str
+    global audio_enc_str,connected_client_addr, sender_public_key_str
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -48,12 +49,15 @@ def p2p_server(your_ip, port=41329):
             lines = f.readlines()
             sender_public_key_str = "".join(lines[1:-1]).replace("\n", "")
 
-        with open("static/assets/audio/received_audio.mp3", "wb") as file:
+        with open("received_audio_enc_file.enc", "wb") as file:
             while True:
                 data = conn.recv(1024)
                 if not data:
                     break
                 file.write(data)
+        
+        with open("received_audio_enc_file.enc", "rb") as f:
+            audio_enc_str = f.read()
 
         print("File received successfully from", addr)
         conn.close()
@@ -77,8 +81,9 @@ def home():
     with addr_lock:
         client_ip = connected_client_addr if connected_client_addr else "No connection yet"
         sender_pub = sender_public_key_str if connected_client_addr else "No connection yet"
+        audio_enc = audio_enc_str if audio_enc_str else "No connection yet"
 
-    return render_template("home.html", ip=ipv4_address, pri=private_key_str, pub=public_key_str, addr=client_ip, spub=sender_pub)
+    return render_template("home.html", ip=ipv4_address, pri=private_key_str, pub=public_key_str, addr=client_ip, spub=sender_pub, astr=audio_enc)
 
 # ------------------------------------------------------- Flask Call -----------------------------------------------------
 if __name__ == '__main__':
