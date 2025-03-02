@@ -2,6 +2,9 @@ import socket
 from flask import Flask, render_template,request
 import socket
 import threading
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+from Crypto.Random import get_random_bytes
 
 # ------------------------------------------------------- send view -----------------------------------------------------
 
@@ -27,14 +30,32 @@ def get_generate_key():
     return private_key_str, public_key_str
 
 
-def p2p_client(receiver_ip, filename, port=41329):
+def p2p_client(receiver_ip, audio_filename, port=41329):
 
     try:
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client_socket.connect((receiver_ip, port))
-        with open(filename, 'rb') as file:
+
+        def load_aes_key(filename="static\\assets\\keys\\aes_key.pem"):
+            with open(filename, "r") as key_file:
+                pem_data = key_file.read()
+            key_hex = pem_data.split("\n")[1]  
+            return bytes.fromhex(key_hex)
+
+        def encrypt_audio(input_file, output_file, key):
+            iv = get_random_bytes(16)
+            cipher = AES.new(key, AES.MODE_CBC, iv)
+            with open(input_file, 'rb') as f:
+                audio_data = f.read()
+            encrypted_data = cipher.encrypt(pad(audio_data, AES.block_size))
+            with open(output_file, 'wb') as f:
+                f.write(iv + encrypted_data)
+            print(f"Audio file '{input_file}' encrypted and saved as '{output_file}'")
+        aes_key = load_aes_key("static\\assets\\keys\\aes_key.pem")
+        encrypt_audio(audio_filename, "encrypted_audio.enc", aes_key)
+        
+        with open("encrypted_audio.enc", 'rb') as file:
             data = file.read()
-            
             client_socket.sendall(data)
         client_socket.close()
         print("File sent successfully.")
