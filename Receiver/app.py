@@ -39,7 +39,7 @@ def p2p_server(your_ip, port=41329):
         conn, addr = server_socket.accept()
         print(f"Connected by {addr}")
             
-        with open("received_audio.wav", "wb") as file:
+        with open("received_audio.mp3", "wb") as file:
             while True:
                 data = conn.recv(1024)
                 if not data:
