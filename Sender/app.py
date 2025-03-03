@@ -6,6 +6,9 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from Crypto.Random import get_random_bytes
 
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives import serialization, hashes
+
 # ------------------------------------------------------- send view -----------------------------------------------------
 
 def get_ipv4_address():
@@ -30,11 +33,11 @@ def get_generate_key():
     return private_key_str, public_key_str
 
 
-def p2p_client(receiver_ip, audio_filename, port=41329):
+def p2p_client(receiver_ip, audio_filename, port1=41329, port2=41330):
 
     try:
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect((receiver_ip, port))
+        client_socket.connect((receiver_ip, port1))
 
         def load_aes_key(filename="static\\assets\\keys\\aes_key.pem"):
             with open(filename, "r") as key_file:
@@ -55,6 +58,43 @@ def p2p_client(receiver_ip, audio_filename, port=41329):
         encrypt_audio(audio_filename, "encrypted_audio.enc", aes_key)
         
         with open("encrypted_audio.enc", 'rb') as file:
+            data = file.read()
+            client_socket.sendall(data)
+        client_socket.close()
+        print("File sent successfully.")
+        
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.connect((receiver_ip, port2))
+        
+        aes_key_path = "static\\assets\\keys\\aes_key.pem"
+        public_key_path = "static\\assets\\keys\\reciver_public_key.pem"
+        encrypted_aes_key_path = "static\\assets\\keys\\encrypted_aes_key.bin"
+
+        # Load AES key
+        with open(aes_key_path, "rb") as f:
+            aes_key = f.read()
+
+        # Load receiver's public key
+        with open(public_key_path, "rb") as f:
+            public_key = serialization.load_pem_public_key(f.read())
+
+        # Encrypt AES key using RSA
+        encrypted_aes_key = public_key.encrypt(
+            aes_key,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+
+        # Save encrypted AES key
+        with open(encrypted_aes_key_path, "wb") as f:
+            f.write(encrypted_aes_key)
+
+        print(f"Encrypted AES key saved to {encrypted_aes_key_path}")
+        
+        with open("static\\assets\\keys\\encrypted_aes_key.bin", 'rb') as file:
             data = file.read()
             client_socket.sendall(data)
         client_socket.close()

@@ -8,6 +8,7 @@
     text-decoration: none;
     outline: none;
     color: white;
+    font-weight: bold;
 }
 
 html{
@@ -97,7 +98,6 @@ body{
     padding: 10px;
     background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
     width: fit-content;
-    color: black;
     font-weight: bold;
 }
 
@@ -106,7 +106,6 @@ body{
     padding: 10px;
     background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
     width: 450px;
-    color: black;
     font-weight: bold;
 }
 
@@ -120,6 +119,5 @@ body{
 .key button:hover{
     border-radius: 10px;
     padding: 10px;
-    color: black;
     background-image: linear-gradient(to right, rgb(104, 104, 247), rgb(250, 241, 253));
 }
