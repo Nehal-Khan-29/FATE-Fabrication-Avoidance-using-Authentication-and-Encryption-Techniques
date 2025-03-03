@@ -8,6 +8,7 @@
     text-decoration: none;
     outline: none;
     color: white;
+    font-weight: 900;
 }
 
 html{
@@ -110,7 +111,6 @@ textarea::-webkit-scrollbar-track {
     padding: 10px;
     background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
     width: fit-content;
-    color: black;
     font-weight: bold;
 }
 
@@ -128,7 +128,6 @@ textarea::-webkit-scrollbar-track {
     padding: 10px;
     background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
     width: 450px;
-    color: black;
     font-weight: bold;
 }
 
@@ -138,7 +137,6 @@ textarea::-webkit-scrollbar-track {
     background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
     width: 450px;
     height: 150px;
-    color: black;
     font-weight: bold;
 }
 
@@ -173,7 +171,6 @@ button:hover{
     padding: 10px;
     background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
     width: fit-content;
-    color: black;
     font-weight: bold;
 }
 
@@ -182,7 +179,6 @@ button:hover{
     padding: 10px;
     background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
     width: 450px;
-    color: black;
     font-weight: bold;
 }
 
@@ -191,12 +187,11 @@ button:hover{
     padding: 10px;
     background-image: linear-gradient(to left, rgb(104, 104, 247), rgb(219, 138, 246));
     width: 450px;
-    color: black;
     font-weight: bold;
 }
 
 .authen{
-    color: black;
+
     padding: 20px;
     border-radius: 10px;
     background-color: #ffffff;
