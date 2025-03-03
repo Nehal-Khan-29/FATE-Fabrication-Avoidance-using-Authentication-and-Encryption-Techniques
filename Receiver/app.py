@@ -69,13 +69,6 @@ def p2p_server1(your_ip, port=41329):
         
         with open("static/assets/audio/received_audio_enc_file.enc", "rb") as f:
             audio_enc_str = f.read()
-            
-        with open("static\\assets\\keys\\encrypted_aes_key.bin", "wb") as file:
-            while True:
-                data = conn.recv(1024*1000)
-                if not data:
-                    break
-                file.write(data)
 
         print("File received successfully from", addr)
         conn.close()
@@ -100,6 +93,7 @@ def p2p_server2(your_ip, port=41330):
                 if not data:
                     break
                 file.write(data)
+                print(data)
         
         with open("static\\assets\\keys\\encrypted_aes_key.bin", "rb") as f:
             aes_enc_str = f.read()
@@ -210,6 +204,9 @@ def p2p_server3(your_ip, port=41331):
             return public_key
 
         def verify_signature(signature, public_key):
+            while not digest1:
+                pass
+                
             decoded_signature = base64.b64decode(signature)
             try:
                 public_key.verify(

@@ -9,7 +9,11 @@ document.addEventListener("DOMContentLoaded", function () {
     var digest2 = document.getElementById("digest_value2").value;
     var authenDiv = document.querySelector(".authen");
 
-    if (digest1 === digest2 && digest1 !== None) {
+    if ((digest1 == digest2) && (digest2 == "No connection yet")) {
+        authenDiv.style.backgroundColor = "white";
+        authenDiv.innerHTML = "Not Received";
+    }
+    else if ((digest1 == digest2) && (digest2 != "No connection yet")) {
         authenDiv.style.backgroundColor = "lightgreen";
         authenDiv.innerHTML = "Verified";
     } else {
