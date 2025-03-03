@@ -6,12 +6,16 @@ from cryptography.hazmat.primitives import serialization, hashes
 from Crypto.Cipher import AES
 import binascii
 import re
+import hashlib
 
 connected_client_addr = None
 sender_public_key_str = None
 audio_enc_str = None
 aes_enc_str = None
 decrypted_aes_str = None
+digest1 = None
+digsig = None
+digest2 = None
 addr_lock = threading.Lock()  # To ensure thread safety
 
 # ------------------------------------------------------- receive view -----------------------------------------------------
@@ -63,7 +67,7 @@ def p2p_server1(your_ip, port=41329):
                     break
                 file.write(data)
         
-        with open("received_audio_enc_file.enc", "rb") as f:
+        with open("static/assets/audio/received_audio_enc_file.enc", "rb") as f:
             audio_enc_str = f.read()
             
         with open("static\\assets\\keys\\encrypted_aes_key.bin", "wb") as file:
@@ -76,9 +80,8 @@ def p2p_server1(your_ip, port=41329):
         print("File received successfully from", addr)
         conn.close()
         
-
 def p2p_server2(your_ip, port=41330):
-    global aes_enc_str, decrypted_aes_str
+    global aes_enc_str, decrypted_aes_str, digest1
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -167,15 +170,76 @@ def p2p_server2(your_ip, port=41330):
 
         # Example usage
         aes_key_path = "static\\assets\\keys\\decrypted_aes_key.pem"
-        encrypted_audio_path = "static/assets/audio/received_audio_enc_file.enc"
-        decrypted_audio_path = "static/assets/audio/decrypted_audio.mp3"
+        encrypted_audio_path = "static\\assets\\audio\\received_audio_enc_file.enc"
+        decrypted_audio_path = "static\\assets\\audio\\decrypted_audio.mp3"
 
         aes_key = load_aes_key(aes_key_path)
         decrypt_file(aes_key, encrypted_audio_path, decrypted_audio_path)
+        
+        def sha256_audio():
+            sha256 = hashlib.sha256()
+            with open("static\\assets\\audio\\decrypted_audio.mp3", 'rb') as f:
+                while chunk := f.read(4096):
+                    sha256.update(chunk)
+            return sha256.hexdigest()
 
+        digest1 = sha256_audio()
+        print(f"SHA-256 Digest: {digest1}")
 
         conn.close()
 
+def p2p_server3(your_ip, port=41331):
+    global digsig, digest2
+
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server_socket.bind((your_ip, port))
+    server_socket.listen(5)  # Allows multiple connections
+
+    print(f"P2P Server listening on {your_ip}:{port}...")
+
+    while True:
+        conn, addr = server_socket.accept()
+        digsig = conn.recv(1024*1000)
+        digsig = digsig.decode()
+        print(digsig)
+        
+        def load_public_key(pem_file):
+            with open(pem_file, "rb") as key_file:
+                public_key = serialization.load_pem_public_key(key_file.read())
+            return public_key
+
+        def verify_signature(signature, public_key):
+            decoded_signature = base64.b64decode(signature)
+            try:
+                public_key.verify(
+                    decoded_signature,
+                    digest1.encode(),  # digest1 should match digest2
+                    padding.PKCS1v15(),
+                    hashes.SHA256()
+                )
+                return digest1  # If verification is successful, digest2 = digest1
+            except Exception as e:
+                print("Verification failed:", e)
+                return None
+
+        # Load public key
+        public_key_file = "static\\assets\\keys\\sender_public_key.pem"
+        public_key = load_public_key(public_key_file)
+
+        # Verify signature and retrieve digest2
+        digest2 = verify_signature(digsig, public_key)
+
+        if digest2:
+            print("Digest2:", digest2)
+        else:
+            print("Signature verification failed!")
+            
+        
+    
+
+        
+        
 # -------------------------------------------------------  Flask -----------------------------------------------------
 app = Flask(__name__)
 
@@ -192,6 +256,8 @@ def home():
         t1.start()
         t2 = threading.Thread(target=p2p_server2, args=(ipv4_address,), daemon=True, name="P2PServerThread")
         t2.start()
+        t3 = threading.Thread(target=p2p_server3, args=(ipv4_address,), daemon=True, name="P2PServerThread")
+        t3.start()
 
     # Get the last connected client address
     with addr_lock:
@@ -200,8 +266,11 @@ def home():
         audio_enc = audio_enc_str if audio_enc_str else "No connection yet"
         aesenc = aes_enc_str if aes_enc_str else "No connection yet"
         aesdec = decrypted_aes_str if aes_enc_str else "No connection yet"
+        dig1 = digest1 if digest1 else "No connection yet"
+        ds = digsig if digsig else "No connection yet"
+        dig2 = digest2 if digest2 else "No connection yet"
 
-    return render_template("home.html", ip=ipv4_address, pri=private_key_str, pub=public_key_str, addr=client_ip, spub=sender_pub, astr=audio_enc, aes_enc=aesenc, aes_dec=aesdec)
+    return render_template("home.html", ip=ipv4_address, pri=private_key_str, pub=public_key_str, addr=client_ip, spub=sender_pub, astr=audio_enc, aes_enc=aesenc, aes_dec=aesdec, d1=dig1, ds=ds, d2=dig2)
 
 # ------------------------------------------------------- Flask Call -----------------------------------------------------
 if __name__ == '__main__':

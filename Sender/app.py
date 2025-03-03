@@ -5,9 +5,12 @@ import threading
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from Crypto.Random import get_random_bytes
-
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import serialization, hashes
+import hashlib
+from cryptography.hazmat.primitives.serialization import load_pem_private_key
+import base64
+
 
 # ------------------------------------------------------- send view -----------------------------------------------------
 
@@ -33,7 +36,7 @@ def get_generate_key():
     return private_key_str, public_key_str
 
 
-def p2p_client(receiver_ip, audio_filename, port1=41329, port2=41330):
+def p2p_client(receiver_ip, audio_filename, port1=41329, port2=41330, port3=41331):
 
     try:
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -99,6 +102,48 @@ def p2p_client(receiver_ip, audio_filename, port1=41329, port2=41330):
             client_socket.sendall(data)
         client_socket.close()
         print("File sent successfully.")
+        
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.connect((receiver_ip, port3))
+        
+        def sha256_audio():
+            sha256 = hashlib.sha256()
+            with open(audio_filename, 'rb') as f:
+                while chunk := f.read(4096):
+                    sha256.update(chunk)
+            return sha256.hexdigest()
+
+        digest = sha256_audio()
+        print(f"SHA-256 Digest: {digest}")
+        
+        def load_private_key(pem_file):
+            with open(pem_file, "rb") as key_file:
+                private_key = load_pem_private_key(key_file.read(), password=None)
+            return private_key
+
+        # Function to generate digital signature
+        def sign_digest(digest, private_key):
+            signature = private_key.sign(
+                digest.encode(),  # Convert the SHA-256 digest to bytes
+                padding.PKCS1v15(),
+                hashes.SHA256()
+            )
+            return base64.b64encode(signature).decode()  # Encode to Base64 for readability
+
+        # Load the private key from the .pem file
+        private_key_file = "static\\assets\\keys\\private_key.pem"  # Change this to your actual file path
+        private_key = load_private_key(private_key_file)
+
+        # SHA-256 Digest (Replace this with the actual digest generated earlier)
+
+        # Generate the digital signature
+        signature = sign_digest(digest, private_key)
+
+        print("Digital Signature:", signature)
+        
+        client_socket.sendall(signature.encode())
+        client_socket.close()
+        
 
     except Exception as e:
         print("Error in sending file:", str(e))
