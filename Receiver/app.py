@@ -3,6 +3,9 @@ from flask import Flask, render_template, request
 import threading, base64
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import serialization, hashes
+from Crypto.Cipher import AES
+import binascii
+import re
 
 connected_client_addr = None
 sender_public_key_str = None
@@ -53,7 +56,7 @@ def p2p_server1(your_ip, port=41329):
             lines = f.readlines()
             sender_public_key_str = "".join(lines[1:-1]).replace("\n", "")
 
-        with open("received_audio_enc_file.enc", "wb") as file:
+        with open("static/assets/audio/received_audio_enc_file.enc", "wb") as file:
             while True:
                 data = conn.recv(1024*1000)
                 if not data:
@@ -131,6 +134,46 @@ def p2p_server2(your_ip, port=41330):
         print(f"Decrypted AES key saved to {decrypted_aes_key_path}")
 
         print("File received successfully from", addr)
+
+
+        def load_aes_key(key_path):
+            """Extracts AES key from a PEM-like file."""
+            with open(key_path, "rb") as key_file:
+                key_contents = key_file.read()
+            
+            key_match = re.search(rb"-----BEGIN AES KEY-----\r?\n([\da-fA-F]+)\r?\n-----END", key_contents)
+            if key_match:
+                return binascii.unhexlify(key_match.group(1))
+            else:
+                raise ValueError("Invalid AES key format!")
+
+        def decrypt_file(aes_key, encrypted_path, output_path):
+            """Decrypts an AES-CBC encrypted file."""
+            with open(encrypted_path, "rb") as enc_file:
+                encrypted_data = enc_file.read()
+            
+            iv, ciphertext = encrypted_data[:16], encrypted_data[16:]
+            cipher = AES.new(aes_key, AES.MODE_CBC, iv)
+            decrypted_data = cipher.decrypt(ciphertext)
+            
+            # Remove PKCS7 padding
+            padding_length = decrypted_data[-1]
+            decrypted_data = decrypted_data[:-padding_length]
+            
+            with open(output_path, "wb") as dec_file:
+                dec_file.write(decrypted_data)
+            
+            print(f"Decryption complete. File saved as: {output_path}")
+
+        # Example usage
+        aes_key_path = "static\\assets\\keys\\decrypted_aes_key.pem"
+        encrypted_audio_path = "static/assets/audio/received_audio_enc_file.enc"
+        decrypted_audio_path = "static/assets/audio/decrypted_audio.mp3"
+
+        aes_key = load_aes_key(aes_key_path)
+        decrypt_file(aes_key, encrypted_audio_path, decrypted_audio_path)
+
+
         conn.close()
 
 # -------------------------------------------------------  Flask -----------------------------------------------------
