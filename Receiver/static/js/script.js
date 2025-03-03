@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var digest2 = document.getElementById("digest_value2").value;
     var authenDiv = document.querySelector(".authen");
 
-    if (digest1 === digest2) {
+    if (digest1 === digest2 && digest1 !== None) {
         authenDiv.style.backgroundColor = "lightgreen";
         authenDiv.innerHTML = "Verified";
     } else {
